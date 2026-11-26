@@ -1,0 +1,912 @@
+{
+  "domain": "Statistics & Mathematics",
+  "domain_id": "STAT",
+  "territory_home": "Knowledge",
+  "categories": [
+    "Mathematical Foundations",
+    "Probability Theory",
+    "Descriptive Statistics",
+    "Inferential Statistics",
+    "Hypothesis Testing",
+    "Correlation & Regression Foundations",
+    "Experimental Design"
+  ],
+  "concepts": [
+    {
+      "id": "STAT-001",
+      "name": "Variables and Data Types",
+      "category": "Mathematical Foundations",
+      "status": "implemented",
+      "prerequisites": [],
+      "related": [],
+      "cross_domain": [
+        {
+          "id": "DA-003",
+          "label": "Data Quality & Governance",
+          "relation": "applies-to"
+        }
+      ],
+      "artifact_required": false,
+      "levels": {
+        "beginner": {
+          "sections": [
+            {
+              "label": "What is it?",
+              "body": "A variable is anything that can be measured or recorded and that takes different values across the people, events, or objects being studied."
+            },
+            {
+              "label": "Simple explanation",
+              "body": "Before any analysis can happen, there has to be something to measure. A variable is that something: age, revenue, temperature, a customer's chosen plan. The reason it matters is that different kinds of variables behave differently once you try to analyze them. 'Height in centimetres' can be averaged. 'Favourite colour' cannot. Analytics starts by sorting variables into types, because the type decides which tools are even valid to use."
+            },
+            {
+              "label": "Worked example",
+              "body": "A retailer's customer record might hold: age (numeric), loyalty tier (ordered categories: bronze, silver, gold), and preferred store (unordered category). Treating loyalty tier like an unordered category would throw away real information, since gold is genuinely 'more' than silver."
+            }
+          ]
+        },
+        "intermediate": {
+          "sections": [
+            {
+              "label": "Key components",
+              "body": "Variables split first into quantitative and qualitative, then further by whether order or true zero points exist."
+            },
+            {
+              "label": "How it works",
+              "body": "Quantitative variables are either discrete (countable, like number of transactions) or continuous (measurable to any precision, like weight). Qualitative variables are either nominal (no order: region, product category) or ordinal (ordered, but without consistent gaps between values: satisfaction rating of low/medium/high). A second, independent classification is the measurement scale: nominal, ordinal, interval (ordered with equal gaps, no true zero, like temperature in Celsius), and ratio (ordered, equal gaps, true zero, like income). The scale determines which arithmetic is meaningful: you cannot say 40°C is 'twice as hot' as 20°C, because Celsius has no true zero, but you can say ₹40,000 is twice ₹20,000, because income does."
+            },
+            {
+              "label": "Worked example",
+              "body": "Mislabeling a 1-to-5 satisfaction score as interval data, then averaging it and reporting '3.4 out of 5' as if the gap between 1 and 2 equals the gap between 4 and 5, is one of the most common classification errors in applied survey analytics."
+            }
+          ]
+        },
+        "advanced": {
+          "sections": [
+            {
+              "label": "Interpretation",
+              "body": "Scale type constrains which statistics and transformations are mathematically defensible, not merely conventional."
+            },
+            {
+              "label": "Technical depth",
+              "body": "Stevens' (1946) theory of scales of measurement formalizes which statistical operations are 'permissible' under each scale: counts and mode for nominal; median and rank-order statistics for ordinal; mean, standard deviation, and correlation for interval and ratio; and only ratio scales support meaningful ratio statements and geometric means. In practice, ordinal data (Likert items) is frequently analyzed with interval-level tools (means, Pearson correlation) under the argument that the resulting bias is small when categories are numerous and roughly symmetric; this is a defensible but explicit assumption, not a free pass, and should be stated when made."
+            },
+            {
+              "label": "Worked example",
+              "body": "Treating a 7-point Likert scale as interval to run a linear regression is common practice in applied research, but a methodologically careful analyst reports this as an assumption and, where it matters, checks results against an ordinal-appropriate alternative such as ordinal logistic regression."
+            }
+          ]
+        },
+        "pro": {
+          "sections": [
+            {
+              "label": "Application",
+              "body": "Correct variable typing upstream prevents downstream governance and modelling failures across an organization's entire data estate."
+            },
+            {
+              "label": "Professional context",
+              "body": "In production analytics and data engineering, variable-type decisions are encoded once in a schema and then inherited by every report, model, and dashboard built on that table. A categorical ID field (like a customer or store number) mistakenly stored and modelled as numeric will silently corrupt any model that treats it as an ordered or additive quantity. Governance practice therefore requires an explicit data dictionary that fixes each field's type, scale, and permissible operations at the point of ingestion, with validation rules enforced in the pipeline rather than left to each analyst's judgement downstream."
+            },
+            {
+              "label": "Worked example",
+              "body": "A financial services firm storing 'branch code' as an integer rather than a categorical string risks a careless analyst computing an 'average branch code' in a BI tool, a meaningless number that nonetheless looks authoritative on a dashboard."
+            }
+          ]
+        }
+      },
+      "references": [
+        {
+          "text": "S. S. Stevens, \"On the Theory of Scales of Measurement,\" Science, 1946.",
+          "type": "academic"
+        }
+      ]
+    },
+    {
+      "id": "STAT-002",
+      "name": "Functions and Rates of Change",
+      "category": "Mathematical Foundations",
+      "status": "implemented",
+      "prerequisites": [
+        "STAT-001"
+      ],
+      "related": [
+        "STAT-003"
+      ],
+      "cross_domain": [
+        {
+          "id": "DS-003",
+          "label": "ML Foundations",
+          "relation": "prerequisite"
+        }
+      ],
+      "artifact_required": false,
+      "levels": {
+        "beginner": {
+          "sections": [
+            {
+              "label": "What is it?",
+              "body": "A function is a rule that turns one number into another; its rate of change tells you how fast the output moves when the input moves."
+            },
+            {
+              "label": "Simple explanation",
+              "body": "Almost every analytical model, from a simple trend line to a deep neural network, is a function: feed in inputs, get out a prediction. The rate of change (the slope, in everyday terms) answers the question every business stakeholder eventually asks: 'if I change this input a little, how much does the output move?'"
+            },
+            {
+              "label": "Worked example",
+              "body": "If revenue is a function of ad spend, and increasing spend by ₹1,000 reliably increases revenue by ₹4,000, that ₹4,000-per-₹1,000 ratio is the rate of change, the thing a marketing team actually wants to know before asking for a bigger budget."
+            }
+          ]
+        },
+        "intermediate": {
+          "sections": [
+            {
+              "label": "Key components",
+              "body": "Linear functions have a constant rate of change; most real relationships are nonlinear, with a rate of change that itself changes."
+            },
+            {
+              "label": "How it works",
+              "body": "A linear function y = mx + c has the same slope m everywhere, which is why 'linear regression' is the simplest modelling tool: it assumes a constant rate of change. Real phenomena, diminishing returns on ad spend, exponential growth in early-stage user adoption, saturation curves in market penetration, have a rate of change that varies with the input itself. Recognizing which shape a relationship actually has, before fitting a model to it, is a basic but frequently skipped step in applied analytics."
+            },
+            {
+              "label": "Worked example",
+              "body": "Assuming a linear relationship between marketing spend and revenue past the point of market saturation leads to systematically overestimating the return on additional spend, because the true rate of change has already started to decline."
+            }
+          ]
+        },
+        "advanced": {
+          "sections": [
+            {
+              "label": "Interpretation",
+              "body": "The derivative formalizes instantaneous rate of change and underlies both statistical estimation and machine learning optimization."
+            },
+            {
+              "label": "Technical depth",
+              "body": "The derivative of a function at a point is the limit of its average rate of change as the interval shrinks to zero, geometrically, the slope of the tangent line. In statistics, derivatives locate the maximum-likelihood estimates of a model's parameters by finding where the derivative of the likelihood function equals zero. In machine learning, gradient descent uses the derivative (gradient, in multiple dimensions) of a loss function to iteratively adjust model parameters in the direction that reduces error fastest."
+            },
+            {
+              "label": "Worked example",
+              "body": "Logistic regression's coefficients are found by setting the derivative of the log-likelihood function to zero and solving, the same mathematical operation, in principle, that trains a neural network's weights via backpropagation."
+            }
+          ]
+        },
+        "pro": {
+          "sections": [
+            {
+              "label": "Application",
+              "body": "Sensitivity and elasticity analysis, built on rates of change, are standard tools for pricing, budget allocation, and risk decisions."
+            },
+            {
+              "label": "Professional context",
+              "body": "Professionals rarely compute derivatives by hand, but they routinely use what derivatives formalize: elasticity (the percentage rate of change of an output per percentage change in an input) to decide pricing, marginal analysis to decide where the next unit of budget should go, and sensitivity analysis to stress-test a financial model against small input changes. These are all, mathematically, statements about local rates of change, dressed in business language."
+            },
+            {
+              "label": "Worked example",
+              "body": "A pricing team reporting that demand has a price elasticity of -1.3 is making a precise mathematical claim: a 1% price increase is expected to reduce quantity demanded by 1.3%, derived from the rate of change of the demand function."
+            }
+          ]
+        }
+      },
+      "references": []
+    },
+    {
+      "id": "STAT-003",
+      "name": "Vectors and Linear Algebra Basics",
+      "category": "Mathematical Foundations",
+      "status": "implemented",
+      "prerequisites": [
+        "STAT-002"
+      ],
+      "related": [],
+      "cross_domain": [
+        {
+          "id": "DS-005",
+          "label": "Deep Learning & Neural Networks",
+          "relation": "prerequisite"
+        }
+      ],
+      "artifact_required": false,
+      "levels": {
+        "beginner": {
+          "sections": [
+            {
+              "label": "What is it?",
+              "body": "A vector is simply an ordered list of numbers; a matrix is a table of such lists. Together they are how data is actually stored and processed by computers."
+            },
+            {
+              "label": "Simple explanation",
+              "body": "Every row in a spreadsheet is, mathematically, a vector: a customer's age, income, and tenure, read left to right, is a list of three numbers in a fixed order. A whole spreadsheet of many such rows is a matrix. Linear algebra is simply the set of rules for doing arithmetic on these lists and tables at once, instead of one number at a time."
+            },
+            {
+              "label": "Worked example",
+              "body": "Multiplying every customer's spending vector by a vector of category weights to get a single 'loyalty score' per customer is a linear algebra operation, even though it rarely gets called one in a business meeting."
+            }
+          ]
+        },
+        "intermediate": {
+          "sections": [
+            {
+              "label": "Key components",
+              "body": "Matrix multiplication is how a dataset of many variables is transformed, combined, or reduced in one coordinated operation."
+            },
+            {
+              "label": "How it works",
+              "body": "Multiplying a data matrix by a coefficient vector produces, in one operation, a weighted combination for every row at once, which is exactly what a regression model's prediction step does. Multiplying two matrices together more generally chains transformations: rotate, scale, project, combine. This is the mechanical basis for operations as different as currency conversion across a whole transaction table and the layer-by-layer transformation inside a neural network."
+            },
+            {
+              "label": "Worked example",
+              "body": "A regression model's prediction for every customer in a dataset, all at once, is literally the matrix product of the data matrix and the coefficient vector, a single line of matrix multiplication replacing what would otherwise be a loop over every row."
+            }
+          ]
+        },
+        "advanced": {
+          "sections": [
+            {
+              "label": "Interpretation",
+              "body": "Eigenvalues and eigenvectors reveal a matrix's fundamental directions of variation, the mathematical basis for dimensionality reduction."
+            },
+            {
+              "label": "Technical depth",
+              "body": "An eigenvector of a matrix is a direction that the matrix only stretches or shrinks, never rotates; the eigenvalue is the amount of that stretch. Applied to a dataset's covariance matrix, the eigenvectors are the directions of greatest variance in the data, and this is precisely the mathematics behind Principal Component Analysis (PCA): finding the small number of new 'directions' that explain most of the variation in a high-dimensional dataset."
+            },
+            {
+              "label": "Worked example",
+              "body": "Reducing a customer dataset with forty correlated behavioural variables down to three principal components that still explain 85% of the variance is an eigen-decomposition of the covariance matrix, used to make downstream clustering or visualization tractable."
+            }
+          ]
+        },
+        "pro": {
+          "sections": [
+            {
+              "label": "Application",
+              "body": "Linear algebra is the computational substrate of production machine learning; its efficient implementation is itself a professional specialization."
+            },
+            {
+              "label": "Professional context",
+              "body": "At production scale, model training and inference are, computationally, almost entirely matrix and tensor operations, which is why GPUs (built for parallel matrix arithmetic) rather than general-purpose CPUs power modern machine learning. Professionals working at this layer care about numerical stability (matrices that are nearly singular cause unreliable results), computational cost (operations scale with the cube of matrix dimension in the naive case), and memory layout, considerations invisible to someone only running a regression in a spreadsheet, but decisive for anyone deploying models at scale."
+            },
+            {
+              "label": "Worked example",
+              "body": "A recommendation engine serving millions of users in real time depends on the matrix multiplications behind it being numerically stable and computationally optimized; a naive implementation that is mathematically correct can still be commercially unusable if it is too slow."
+            }
+          ]
+        }
+      },
+      "references": []
+    },
+    {
+      "id": "STAT-004",
+      "name": "Basic Probability",
+      "category": "Probability Theory",
+      "status": "implemented",
+      "prerequisites": [
+        "STAT-001"
+      ],
+      "related": [
+        "STAT-005",
+        "STAT-006"
+      ],
+      "cross_domain": [
+        {
+          "id": "DA-001",
+          "label": "The Analytics Spectrum",
+          "relation": "prerequisite"
+        }
+      ],
+      "artifact_required": true,
+      "artifact_note": "Coin flip / dice roll probability simulator with adjustable trial count, showing convergence to theoretical probability.",
+      "levels": {
+        "beginner": {
+          "sections": [
+            {
+              "label": "What is it?",
+              "body": "Probability is a number between 0 and 1 that measures how likely an event is, with 0 meaning impossible and 1 meaning certain."
+            },
+            {
+              "label": "Simple explanation",
+              "body": "Everything that follows in statistics rests on this one idea: uncertainty can be measured, not just described in words like 'likely' or 'rare'. Probability gives uncertainty a number, which is what makes it possible to compare risks, size opportunities, and eventually test whether a result in a dataset is a real pattern or just noise."
+            },
+            {
+              "label": "Worked example",
+              "kind": "steps",
+              "steps": [
+                "A website logs 10 visits; 3 end in a purchase.",
+                "Divide outcomes of interest by total outcomes: 3 divided by 10.",
+                "The result is a number planning can actually use, not a guess."
+              ]
+            },
+            {
+              "label": "Result",
+              "kind": "result",
+              "headline": "Estimated conversion probability: 0.3",
+              "note": "A single number a business can plan a budget around, not a vague sense of 'some customers convert'."
+            }
+          ]
+        },
+        "intermediate": {
+          "sections": [
+            {
+              "label": "Key components",
+              "body": "Probabilities combine through addition (either/or) and multiplication (and/then) rules, and independence determines which rule applies."
+            },
+            {
+              "label": "How it works",
+              "body": "Two events are independent if one occurring tells you nothing about whether the other occurs; in that case, the probability of both happening is the product of their individual probabilities. If they are not independent, the calculation requires conditional probability, the probability of one event given that the other has already happened. Confusing dependent events for independent ones is one of the most common reasoning errors in applied probability."
+            },
+            {
+              "label": "Worked example",
+              "body": "The probability that two unrelated customers both churn in the same month can reasonably be multiplied if churn is independent across customers; the probability that a customer churns AND stops opening emails cannot be multiplied this way, because the two behaviours are related, not independent."
+            }
+          ]
+        },
+        "advanced": {
+          "sections": [
+            {
+              "label": "Interpretation",
+              "body": "Bayes' theorem formally updates a probability estimate in light of new evidence, inverting conditional probabilities."
+            },
+            {
+              "label": "Technical depth",
+              "body": "Bayes' theorem states P(A|B) = P(B|A)·P(A) / P(B): it lets you compute the probability of a cause given an observed effect, from the probability of the effect given the cause, which is usually the direction in which data is easier to collect. This single formula underlies spam filters, medical test interpretation, and modern Bayesian statistical modelling, anywhere a prior belief needs to be formally revised by new data."
+            },
+            {
+              "label": "Worked example",
+              "body": "A fraud-detection model estimating the probability a transaction is fraudulent given it was flagged as unusual is a direct application of Bayes' theorem, combining the rarity of fraud overall (the prior) with how often fraud actually looks unusual (the likelihood)."
+            }
+          ]
+        },
+        "pro": {
+          "sections": [
+            {
+              "label": "Application",
+              "body": "Probabilistic thinking, formalized through Bayesian decision frameworks, underlies risk-adjusted business decisions at the executive level."
+            },
+            {
+              "label": "Professional context",
+              "body": "Professional risk management rarely stops at a point estimate of probability; it combines probability with the cost or value of each outcome to compute expected value, and increasingly uses Bayesian updating to formally revise forecasts as new data arrives through a quarter rather than waiting for a full new model cycle. Organizations with mature analytics practices treat probability estimates as living numbers, updated continuously, not year-end constants."
+            },
+            {
+              "label": "Worked example",
+              "body": "A venture capital firm assigning a probability of success to each stage of a startup's path to exit, then updating those probabilities monthly as new traction data arrives, is running an organizational-scale Bayesian process, even when no one on the team calls it that."
+            }
+          ]
+        }
+      },
+      "references": [
+        {
+          "text": "Thomas Bayes, \"An Essay towards Solving a Problem in the Doctrine of Chances,\" Philosophical Transactions of the Royal Society, 1763.",
+          "type": "academic"
+        }
+      ]
+    },
+    {
+      "id": "STAT-005",
+      "name": "Probability Distributions",
+      "category": "Probability Theory",
+      "status": "implemented",
+      "prerequisites": [
+        "STAT-004"
+      ],
+      "related": [
+        "STAT-006"
+      ],
+      "cross_domain": [
+        {
+          "id": "DS-003",
+          "label": "ML Foundations",
+          "relation": "applies-to"
+        }
+      ],
+      "artifact_required": true,
+      "artifact_note": "Distribution explorer: adjust parameters of Normal, Binomial, and Poisson distributions and see the shape update live.",
+      "levels": {
+        "beginner": {
+          "sections": [
+            {
+              "label": "What is it?",
+              "body": "A probability distribution describes every possible outcome of a random process and how likely each one is."
+            },
+            {
+              "label": "Simple explanation",
+              "body": "Instead of asking about one event at a time, a distribution describes the whole landscape of possibilities at once: every possible height a person could be, and how common each height is. Once you have the distribution, you can answer almost any question about the underlying process without new data."
+            },
+            {
+              "label": "Worked example",
+              "body": "Knowing that customer order values roughly follow a known distribution shape lets a retailer estimate, in advance, what fraction of orders will exceed ₹5,000, without having to wait and count."
+            }
+          ]
+        },
+        "intermediate": {
+          "sections": [
+            {
+              "label": "Key components",
+              "body": "The Normal, Binomial, and Poisson distributions cover a large share of practical business situations, each suited to a different kind of randomness."
+            },
+            {
+              "label": "How it works",
+              "body": "The Normal (bell curve) distribution describes continuous measurements clustering around an average, like heights or measurement errors. The Binomial distribution describes the count of successes in a fixed number of yes/no trials, like conversions out of a fixed number of website visits. The Poisson distribution describes the count of events in a fixed window of time or space when events happen independently at a constant average rate, like customer support tickets arriving per hour."
+            },
+            {
+              "label": "Worked example",
+              "body": "A call centre modelling the number of calls arriving per hour would typically reach for a Poisson distribution, while modelling the proportion of calls that get resolved on first contact out of a fixed sample would reach for a Binomial distribution instead."
+            }
+          ]
+        },
+        "advanced": {
+          "sections": [
+            {
+              "label": "Interpretation",
+              "body": "The Central Limit Theorem explains why the Normal distribution appears so often, even when the underlying data is not Normal."
+            },
+            {
+              "label": "Technical depth",
+              "body": "The Central Limit Theorem states that the distribution of a sample mean approaches a Normal distribution as sample size grows, regardless of the shape of the original population's distribution, provided the samples are independent and the population has finite variance. This is why so much of inferential statistics (confidence intervals, many hypothesis tests) can rely on Normal-distribution mathematics even when the raw data is skewed or irregular: it's not the raw data that needs to be Normal, it's the sampling distribution of the statistic being used."
+            },
+            {
+              "label": "Worked example",
+              "body": "Individual customer purchase amounts at a retailer are often heavily right-skewed (many small purchases, a few very large ones), yet the average purchase amount computed from a sample of 200 customers will still be approximately Normally distributed, which is what the Central Limit Theorem predicts and what justifies using standard confidence-interval formulas on it."
+            }
+          ]
+        },
+        "pro": {
+          "sections": [
+            {
+              "label": "Application",
+              "body": "Choosing the wrong distributional assumption silently invalidates downstream confidence intervals, p-values, and risk models."
+            },
+            {
+              "label": "Professional context",
+              "body": "Professional-grade analytics requires checking distributional assumptions rather than defaulting to Normal because it is mathematically convenient. Financial returns, for instance, are well known to have 'fatter tails' than a Normal distribution predicts, meaning extreme events are more common than a Normal-based risk model would suggest, a failure mode implicated in several well-documented financial model breakdowns. Validating distributional fit (via Q-Q plots, goodness-of-fit tests) before relying on a distribution's properties is a standard professional safeguard."
+            },
+            {
+              "label": "Worked example",
+              "body": "A risk model that assumes stock returns are Normally distributed will systematically underestimate the probability of extreme market moves, because real financial returns exhibit heavier tails than the Normal distribution allows for."
+            }
+          ]
+        }
+      },
+      "references": [
+        {
+          "text": "Central Limit Theorem, standard treatment in any calculus-based introductory statistics text (e.g. Wackerly, Mendenhall, Scheaffer, Mathematical Statistics with Applications).",
+          "type": "textbook"
+        }
+      ]
+    },
+    {
+      "id": "STAT-006",
+      "name": "Random Variables and Expectation",
+      "category": "Probability Theory",
+      "status": "implemented",
+      "prerequisites": [
+        "STAT-004",
+        "STAT-005"
+      ],
+      "related": [],
+      "cross_domain": [
+        {
+          "id": "FUNC-005",
+          "label": "Risk Analytics",
+          "relation": "applies-to"
+        }
+      ],
+      "artifact_required": false,
+      "levels": {
+        "beginner": {
+          "sections": [
+            {
+              "label": "What is it?",
+              "body": "A random variable assigns a number to each outcome of an uncertain process; its expectation is the long-run average of those numbers."
+            },
+            {
+              "label": "Simple explanation",
+              "body": "Turning uncertain outcomes into numbers is what makes them mathematically usable. The expectation, often called the expected value, is simply what you'd expect to get on average if the uncertain process repeated itself many, many times."
+            },
+            {
+              "label": "Worked example",
+              "body": "If a marketing campaign has a 20% chance of generating ₹50,000 in extra revenue and an 80% chance of generating ₹0, its expected value is 0.2 × ₹50,000 = ₹10,000, the number a planner would actually use to compare it against other campaigns."
+            }
+          ]
+        },
+        "intermediate": {
+          "sections": [
+            {
+              "label": "Key components",
+              "body": "Expectation is computed by weighting every possible outcome by its probability and summing, and variance measures how spread out outcomes are around that average."
+            },
+            {
+              "label": "How it works",
+              "body": "Expectation alone can be misleading: two options with the same expected value can carry very different risk. Variance (and its square root, standard deviation) captures how much outcomes typically deviate from the expected value, which is why professional decisions rarely rely on expected value alone, they weigh expected value against variance, i.e. return against risk."
+            },
+            {
+              "label": "Worked example",
+              "body": "Two investment options might both have an expected annual return of 8%, but one with much higher variance carries meaningfully more risk of a bad year, information the expected value alone does not reveal."
+            }
+          ]
+        },
+        "advanced": {
+          "sections": [
+            {
+              "label": "Interpretation",
+              "body": "Linearity of expectation and the law of large numbers justify treating sample averages as reliable estimates of true expected values."
+            },
+            {
+              "label": "Technical depth",
+              "body": "Linearity of expectation, the fact that the expectation of a sum equals the sum of expectations, even when the variables are dependent, is what makes complex multi-component forecasts mathematically tractable. The law of large numbers guarantees that as sample size grows, the sample average converges to the true expectation, which is the formal justification for why 'more data' genuinely does produce more reliable estimates, not just a reassuring feeling."
+            },
+            {
+              "label": "Worked example",
+              "body": "Forecasting total expected revenue across ten independently priced product lines can be done by simply summing each line's expected revenue, a direct consequence of linearity of expectation, without needing to model how the product lines interact."
+            }
+          ]
+        },
+        "pro": {
+          "sections": [
+            {
+              "label": "Application",
+              "body": "Expected value underlies formal decision theory, the basis for expected-value-maximizing choices under uncertainty in finance, insurance, and operations."
+            },
+            {
+              "label": "Professional context",
+              "body": "Professional risk and decision functions, actuarial pricing, portfolio construction, capital budgeting under uncertainty, formally build on expected value as the organizing decision criterion, often adjusted for risk aversion (utility theory) rather than used in raw form. Understanding where raw expected value is an adequate decision rule, and where risk-adjustment is required, is a core professional judgement call, not a formula to apply blindly."
+            },
+            {
+              "label": "Worked example",
+              "body": "An insurer pricing a policy sets the premium above the expected payout (expected value) specifically to account for risk and ensure solvency across unlikely but costly tail events, a direct professional application of expectation combined with risk-adjustment."
+            }
+          ]
+        }
+      },
+      "references": []
+    },
+    {
+      "id": "STAT-007",
+      "name": "Set Theory for Data",
+      "category": "Mathematical Foundations",
+      "status": "planned",
+      "prerequisites": [],
+      "related": [],
+      "cross_domain": [],
+      "artifact_required": false,
+      "levels": {}
+    },
+    {
+      "id": "STAT-008",
+      "name": "Logarithms and Exponential Growth",
+      "category": "Mathematical Foundations",
+      "status": "planned",
+      "prerequisites": [],
+      "related": [],
+      "cross_domain": [],
+      "artifact_required": false,
+      "levels": {}
+    },
+    {
+      "id": "STAT-009",
+      "name": "Discrete vs. Continuous Distributions (Deep Dive)",
+      "category": "Probability Theory",
+      "status": "planned",
+      "prerequisites": [],
+      "related": [],
+      "cross_domain": [],
+      "artifact_required": false,
+      "levels": {}
+    },
+    {
+      "id": "STAT-010",
+      "name": "Joint and Marginal Probability",
+      "category": "Probability Theory",
+      "status": "planned",
+      "prerequisites": [],
+      "related": [],
+      "cross_domain": [],
+      "artifact_required": false,
+      "levels": {}
+    },
+    {
+      "id": "STAT-011",
+      "name": "Measures of Central Tendency",
+      "category": "Descriptive Statistics",
+      "status": "planned",
+      "prerequisites": [],
+      "related": [],
+      "cross_domain": [],
+      "artifact_required": false,
+      "levels": {}
+    },
+    {
+      "id": "STAT-012",
+      "name": "Measures of Dispersion",
+      "category": "Descriptive Statistics",
+      "status": "planned",
+      "prerequisites": [],
+      "related": [],
+      "cross_domain": [],
+      "artifact_required": false,
+      "levels": {}
+    },
+    {
+      "id": "STAT-013",
+      "name": "Skewness and Kurtosis",
+      "category": "Descriptive Statistics",
+      "status": "planned",
+      "prerequisites": [],
+      "related": [],
+      "cross_domain": [],
+      "artifact_required": false,
+      "levels": {}
+    },
+    {
+      "id": "STAT-014",
+      "name": "Sampling Methods",
+      "category": "Inferential Statistics",
+      "status": "planned",
+      "prerequisites": [],
+      "related": [],
+      "cross_domain": [],
+      "artifact_required": false,
+      "levels": {}
+    },
+    {
+      "id": "STAT-015",
+      "name": "Point and Interval Estimation",
+      "category": "Inferential Statistics",
+      "status": "planned",
+      "prerequisites": [],
+      "related": [],
+      "cross_domain": [],
+      "artifact_required": false,
+      "levels": {}
+    },
+    {
+      "id": "STAT-016",
+      "name": "Confidence Intervals",
+      "category": "Inferential Statistics",
+      "status": "planned",
+      "prerequisites": [],
+      "related": [],
+      "cross_domain": [],
+      "artifact_required": true,
+      "levels": {}
+    },
+    {
+      "id": "STAT-017",
+      "name": "Standard Error",
+      "category": "Inferential Statistics",
+      "status": "planned",
+      "prerequisites": [],
+      "related": [],
+      "cross_domain": [],
+      "artifact_required": false,
+      "levels": {}
+    },
+    {
+      "id": "STAT-018",
+      "name": "Null and Alternative Hypotheses",
+      "category": "Hypothesis Testing",
+      "status": "planned",
+      "prerequisites": [],
+      "related": [],
+      "cross_domain": [],
+      "artifact_required": false,
+      "levels": {}
+    },
+    {
+      "id": "STAT-019",
+      "name": "p-values",
+      "category": "Hypothesis Testing",
+      "status": "planned",
+      "prerequisites": [],
+      "related": [],
+      "cross_domain": [],
+      "artifact_required": false,
+      "levels": {}
+    },
+    {
+      "id": "STAT-020",
+      "name": "Type I and Type II Errors",
+      "category": "Hypothesis Testing",
+      "status": "planned",
+      "prerequisites": [],
+      "related": [],
+      "cross_domain": [],
+      "artifact_required": false,
+      "levels": {}
+    },
+    {
+      "id": "STAT-021",
+      "name": "Statistical Power",
+      "category": "Hypothesis Testing",
+      "status": "planned",
+      "prerequisites": [],
+      "related": [],
+      "cross_domain": [],
+      "artifact_required": false,
+      "levels": {}
+    },
+    {
+      "id": "STAT-022",
+      "name": "t-tests",
+      "category": "Hypothesis Testing",
+      "status": "planned",
+      "prerequisites": [],
+      "related": [],
+      "cross_domain": [],
+      "artifact_required": true,
+      "levels": {}
+    },
+    {
+      "id": "STAT-023",
+      "name": "Chi-Square Test",
+      "category": "Hypothesis Testing",
+      "status": "planned",
+      "prerequisites": [],
+      "related": [],
+      "cross_domain": [],
+      "artifact_required": false,
+      "levels": {}
+    },
+    {
+      "id": "STAT-024",
+      "name": "ANOVA",
+      "category": "Hypothesis Testing",
+      "status": "planned",
+      "prerequisites": [],
+      "related": [],
+      "cross_domain": [],
+      "artifact_required": true,
+      "levels": {}
+    },
+    {
+      "id": "STAT-025",
+      "name": "Correlation Coefficients",
+      "category": "Correlation & Regression Foundations",
+      "status": "planned",
+      "prerequisites": [],
+      "related": [],
+      "cross_domain": [],
+      "artifact_required": true,
+      "levels": {}
+    },
+    {
+      "id": "STAT-026",
+      "name": "Simple Linear Regression",
+      "category": "Correlation & Regression Foundations",
+      "status": "planned",
+      "prerequisites": [],
+      "related": [],
+      "cross_domain": [],
+      "artifact_required": true,
+      "levels": {}
+    },
+    {
+      "id": "STAT-027",
+      "name": "Multiple Linear Regression",
+      "category": "Correlation & Regression Foundations",
+      "status": "planned",
+      "prerequisites": [],
+      "related": [],
+      "cross_domain": [],
+      "artifact_required": false,
+      "levels": {}
+    },
+    {
+      "id": "STAT-028",
+      "name": "Regression Assumptions and Diagnostics",
+      "category": "Correlation & Regression Foundations",
+      "status": "planned",
+      "prerequisites": [],
+      "related": [],
+      "cross_domain": [],
+      "artifact_required": false,
+      "levels": {}
+    },
+    {
+      "id": "STAT-029",
+      "name": "Correlation vs. Causation",
+      "category": "Correlation & Regression Foundations",
+      "status": "planned",
+      "prerequisites": [],
+      "related": [],
+      "cross_domain": [],
+      "artifact_required": false,
+      "levels": {}
+    },
+    {
+      "id": "STAT-030",
+      "name": "Principles of Experimental Design",
+      "category": "Experimental Design",
+      "status": "planned",
+      "prerequisites": [],
+      "related": [],
+      "cross_domain": [],
+      "artifact_required": false,
+      "levels": {}
+    },
+    {
+      "id": "STAT-031",
+      "name": "Randomization and Control Groups",
+      "category": "Experimental Design",
+      "status": "planned",
+      "prerequisites": [],
+      "related": [],
+      "cross_domain": [],
+      "artifact_required": false,
+      "levels": {}
+    },
+    {
+      "id": "STAT-032",
+      "name": "A/B Testing Fundamentals",
+      "category": "Experimental Design",
+      "status": "planned",
+      "prerequisites": [],
+      "related": [],
+      "cross_domain": [],
+      "artifact_required": true,
+      "levels": {}
+    },
+    {
+      "id": "STAT-033",
+      "name": "Confounding Variables",
+      "category": "Experimental Design",
+      "status": "planned",
+      "prerequisites": [],
+      "related": [],
+      "cross_domain": [],
+      "artifact_required": false,
+      "levels": {}
+    },
+    {
+      "id": "STAT-034",
+      "name": "Sample Size Determination",
+      "category": "Experimental Design",
+      "status": "planned",
+      "prerequisites": [],
+      "related": [],
+      "cross_domain": [],
+      "artifact_required": true,
+      "levels": {}
+    },
+    {
+      "id": "STAT-035",
+      "name": "Matrix Decomposition for Statistics",
+      "category": "Mathematical Foundations",
+      "status": "planned",
+      "prerequisites": [],
+      "related": [],
+      "cross_domain": [],
+      "artifact_required": false,
+      "levels": {}
+    },
+    {
+      "id": "STAT-036",
+      "name": "Optimization Basics (Minima and Maxima)",
+      "category": "Mathematical Foundations",
+      "status": "planned",
+      "prerequisites": [],
+      "related": [],
+      "cross_domain": [],
+      "artifact_required": false,
+      "levels": {}
+    },
+    {
+      "id": "STAT-037",
+      "name": "Conditional Probability Deep Dive",
+      "category": "Probability Theory",
+      "status": "planned",
+      "prerequisites": [],
+      "related": [],
+      "cross_domain": [],
+      "artifact_required": false,
+      "levels": {}
+    },
+    {
+      "id": "STAT-038",
+      "name": "Law of Large Numbers",
+      "category": "Probability Theory",
+      "status": "planned",
+      "prerequisites": [],
+      "related": [],
+      "cross_domain": [],
+      "artifact_required": false,
+      "levels": {}
+    }
+  ]
+}

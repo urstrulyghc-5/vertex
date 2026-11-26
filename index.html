@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vertex, The World of Analytics, Connected Under One Path</title>
+<meta name="description" content="Vertex is an independent knowledge platform for the complete world of Analytics: its history, foundations, disciplines, methods, and applications." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="./assets/css/tokens.css" />
+<link rel="stylesheet" href="./assets/css/base.css" />
+<link rel="stylesheet" href="./assets/css/components.css" />
+</head>
+<body>
+<div id="app">
+
+  <nav class="nav">
+    <div class="container nav-inner">
+      <button class="nav-mark" data-go-entrance="1" aria-label="Vertex, return to the entrance">
+        <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true">
+          <path class="vertex-mark-stroke" d="M2 4 L13 22 L24 4" />
+          <circle class="vertex-mark-point" cx="13" cy="22" r="2" />
+        </svg>
+        Vertex
+      </button>
+      <ul class="nav-territories">
+        <li class="nav-item">
+          <button class="nav-tab is-active">Start</button>
+          <div class="nav-dropdown">
+            <div class="nav-dropdown-col">
+              <a href="#" class="nav-dropdown-link is-live" data-go-start="1">
+                <strong>What Analytics Is</strong>
+                <span>A short, direct answer before anything else, no advertising.</span>
+              </a>
+              <a href="#" class="nav-dropdown-link is-live" data-go-home="1">
+                <strong>The Universe</strong>
+                <span>Thirteen domains, how they relate, and real progress on each.</span>
+              </a>
+              <a href="#" class="nav-dropdown-link is-live" data-go-all-concepts="1">
+                <strong>All Concepts</strong>
+                <span>Every concept across every domain, flat, honest about what is drafted.</span>
+              </a>
+            </div>
+          </div>
+        </li>
+        <li class="nav-item">
+          <button class="nav-tab" data-go-home="1">Universe</button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-tab">Story</button>
+          <div class="nav-dropdown">
+            <div class="nav-dropdown-col">
+              <span class="nav-dropdown-link">
+                <strong>Story</strong>
+                <span>The history of analytical thinking, chronological and sourced. Queued, not yet built.</span>
+              </span>
+            </div>
+          </div>
+        </li>
+        <li class="nav-item">
+          <button class="nav-tab">Practice</button>
+          <div class="nav-dropdown">
+            <div class="nav-dropdown-col">
+              <span class="nav-dropdown-link">
+                <strong>Practice</strong>
+                <span>Hands-on tools and technology, from fundamentals to real workflows. Queued, not yet built.</span>
+              </span>
+            </div>
+          </div>
+        </li>
+        <li class="nav-item">
+          <button class="nav-tab">Understand</button>
+          <div class="nav-dropdown">
+            <div class="nav-dropdown-col">
+              <span class="nav-dropdown-link">
+                <strong>Understand</strong>
+                <span>Methods, models, and frameworks explained in depth. Queued, not yet built.</span>
+              </span>
+            </div>
+          </div>
+        </li>
+        <li class="nav-item">
+          <button class="nav-tab">Business Intelligence</button>
+          <div class="nav-dropdown">
+            <div class="nav-dropdown-col">
+              <span class="nav-dropdown-link">
+                <strong>Business Intelligence</strong>
+                <span>Reporting, dashboards, and decision intelligence. Queued, not yet built.</span>
+              </span>
+            </div>
+          </div>
+        </li>
+        <li class="nav-item">
+          <button class="nav-tab">Knowledge Graph</button>
+          <div class="nav-dropdown">
+            <div class="nav-dropdown-col">
+              <span class="nav-dropdown-link">
+                <strong>Knowledge Graph</strong>
+                <span>The tree's full cross-domain connections, explorable on their own. Queued, not yet built.</span>
+              </span>
+            </div>
+          </div>
+        </li>
+        <li class="nav-item">
+          <button class="nav-tab">Data &amp; Evidence</button>
+          <div class="nav-dropdown">
+            <div class="nav-dropdown-col">
+              <span class="nav-dropdown-link">
+                <strong>Data &amp; Evidence</strong>
+                <span>Telemetry, operational data, and how evidence is produced. Queued, not yet built.</span>
+              </span>
+            </div>
+          </div>
+        </li>
+        <li class="nav-item">
+          <button class="nav-tab">References</button>
+          <div class="nav-dropdown">
+            <div class="nav-dropdown-col">
+              <span class="nav-dropdown-link">
+                <strong>References</strong>
+                <span>Every source behind every claim, connected to its content. Queued, not yet built.</span>
+              </span>
+            </div>
+          </div>
+        </li>
+        <li class="nav-item">
+          <button class="nav-tab">Search</button>
+          <div class="nav-dropdown">
+            <div class="nav-dropdown-col">
+              <span class="nav-dropdown-link">
+                <strong>Search</strong>
+                <span>Find any concept, method, or domain directly. Queued, not yet built.</span>
+              </span>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <section id="entrance" class="entrance">
+      <h1 class="sr-only">Vertex, the world of Analytics, connected under one path</h1>
+      <canvas id="pyramid-canvas" class="entrance-canvas" aria-label="The world of Analytics as a rotating pyramid, foundations at the base, frontiers at the apex"></canvas>
+    </section>
+
+    <section id="start-intro" hidden>
+      <div class="knowledge-home-head">
+        <p class="meta">Vertex / Start</p>
+        <h2>What Analytics is.</h2>
+        <p class="hero-sub" style="max-width:62ch;">
+          Analytics is the disciplined use of data, evidence, and method to
+          understand what has happened, why it happened, what is likely to
+          happen next, and what to do about it. It draws on mathematics,
+          statistics, computing, and business judgement together, not any
+          one of them alone.
+        </p>
+        <p class="hero-sub" style="max-width:62ch;">
+          It is not confined to one profession or industry. A finance
+          analyst, a marketing manager, a logistics planner, and a
+          researcher all use the same underlying methods toward different
+          questions. Vertex organizes that shared body of knowledge into
+          thirteen connected domains, from its mathematical foundations to
+          the artificial intelligence reshaping it today.
+        </p>
+        <p class="hero-sub" style="max-width:62ch;">
+          Two places to go from here: open <a href="#" data-go-home="1">the universe</a>
+          to see the domains, or scan <a href="#" data-go-all-concepts="1">all concepts</a>
+          at once.
+        </p>
+      </div>
+    </section>
+
+    <section id="all-concepts" hidden>
+      <div class="knowledge-home-head">
+        <p class="meta">Vertex / All Concepts</p>
+        <h2>Every concept, one flat list.</h2>
+        <p class="hero-sub" style="max-width:62ch;">
+          Statistics &amp; Mathematics has a working file behind it, so its
+          concepts are listed individually below with their real status.
+          The remaining twelve domains are classified but not yet drafted
+          concept by concept, so they are shown as a single honest count
+          rather than invented names.
+        </p>
+        <div class="progress-row" id="overall-progress"></div>
+      </div>
+      <div id="all-concepts-list"></div>
+    </section>
+
+    <section id="knowledge-home">
+      <div class="knowledge-home-head">
+        <p class="meta">Vertex / Universe</p>
+        <h2>Thirteen domains, one registry.</h2>
+        <p class="hero-sub" style="max-width:62ch;">
+          Open a domain to see its categories and the concepts written inside it.
+          Each card shows real progress, not a rounded-up guess.
+        </p>
+      </div>
+      <div class="domain-grid" id="domain-grid"></div>
+    </section>
+
+    <section id="domain-view" class="layout" hidden>
+      <aside class="rail" id="rail" aria-label="Domain concepts"></aside>
+      <section id="concept-panel"></section>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      Vertex &middot; Statistics &amp; Mathematics, Batch 1 of 7 &middot; built and audited in stages, nothing claimed as finished before it is tested.
+    </div>
+  </footer>
+
+</div>
+
+<script type="module" src="./assets/js/app.js"></script>
+<script type="module">
+  import { mountPyramid } from "./assets/js/pyramid.js";
+  mountPyramid(document.getElementById("pyramid-canvas"), (slug) => {
+    if (window.vertexOpenDomain) window.vertexOpenDomain(slug);
+  });
+</script>
+</body>
+</html>
